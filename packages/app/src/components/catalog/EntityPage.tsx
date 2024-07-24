@@ -53,7 +53,11 @@ import {
 
 import { TechDocsAddons } from '@backstage/plugin-techdocs-react';
 import { ReportIssue } from '@backstage/plugin-techdocs-module-addons-contrib';
-
+import {
+  EntityJenkinsContent,
+  EntityLatestJenkinsRunCard,
+  isJenkinsAvailable,
+} from '@backstage-community/plugin-jenkins';
 const techdocsContent = (
   <EntityTechdocsContent>
     <TechDocsAddons>
@@ -147,7 +151,11 @@ const serviceEntityPage = (
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
-      {cicdContent}
+      <EntitySwitch>
+        <EntitySwitch.Case if={isJenkinsAvailable}>
+          <EntityJenkinsContent />
+        </EntitySwitch.Case>
+      </EntitySwitch>
     </EntityLayout.Route>
 
     <EntityLayout.Route path="/api" title="API">
